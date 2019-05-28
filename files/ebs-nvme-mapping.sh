@@ -7,7 +7,10 @@ for blkdev in $( nvme list | awk '/^\/dev/ { print $1 }' ) ; do
 
   if [[ "${mapping}" == "" ]]; then
     ( test -b "${blkdev}" && test -L "/dev/local0" ) || ln -s "${blkdev}" "/dev/local0"
-  elif [[ "/dev/${mapping}" == /dev/* ]]; then
-    ( test -b "${blkdev}" && test -L "/dev/${mapping}" ) || ln -s "${blkdev}" "/dev/${mapping}"
+  else
+    if [[ "${mapping}" != /dev/* ]]; then
+        mapping="/dev/${mapping}"
+    fi
+    ( test -b "${blkdev}" && test -L "${mapping}" ) || ln -s "${blkdev}" "${mapping}"
   fi
 done
