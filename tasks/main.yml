@@ -33,7 +33,7 @@
       changed_when: False
       when: nvme_mapping_run|bool
 
-  when: not (nvme_exist.stdout | regex_search('No NVMe devices detected.') == none)
+  when: not (nvme_exist.stdout | regex_search('No NVMe devices detected.'))
 
 - name: remove nvme tool
   apt:
